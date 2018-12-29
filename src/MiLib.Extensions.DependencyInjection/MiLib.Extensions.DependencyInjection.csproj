@@ -5,11 +5,12 @@
     <RootNamespace></RootNamespace>
     <Authors>Moses Ibiwoye</Authors>
     <Company>Moses Ibiwoye</Company>
-    <Description>Scan and bind your classes in assembly to ServiceCollection automatically</Description>
+    <Description>Scan and register your interfaces and/or classes in assembly to ServiceCollection automatically</Description>
     <Copyright>Copyright © 2018 Moses Ibiwoye</Copyright>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../nupkgs</PackageOutputPath>
+    <RepositoryUrl>https://github.com/MiLibCode/MiLib-Extensions-DependencyInjection</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static MiLibScanOptions _options;
 
         /// <summary>
-        /// Scan calling assembly and bind all classes in that assembly automatically to service collection based on attribute and convention
+        /// Scan calling assembly and bind all classes in that assembly automatically to service collection based on convention and <see cref="ServiceLifetime"/>
         /// </summary>
         /// <param name="services"></param>
         /// <param name="optionsAction"></param>
@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Scan supplied assemblies and bind them automatically to service collection based on attribute and <see cref="ServiceLifetime"/>
+        /// Scan supplied assemblies and bind them automatically to service collection based on convention and <see cref="ServiceLifetime"/>
         /// </summary>
         /// <param name="services"></param>
         /// <param name="assembly"></param>
@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Scan supplied assemblies and bind them automatically to service collection based on attribute and <see cref="ServiceLifetime"/>
+        /// Scan supplied assemblies and bind them automatically to service collection based on convention and <see cref="ServiceLifetime"/>
         /// </summary>
         /// <param name="services"></param>
         /// <param name="assemblies"></param>
@@ -45,12 +45,38 @@ namespace Microsoft.Extensions.DependencyInjection
             return ScanAndRegisterAssemblies(services, assemblies);
         }
 
+        /// <summary>
+        /// Add Type to service collection based on default convention and <see cref="ServiceLifetime"/>
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="type"></param>
+        /// <param name="optionsAction"></param>
         public static IServiceCollection AddTypeOf(this IServiceCollection services, Type type, Action<MiLibScanOptions> optionsAction = null)
         {
             _options = new MiLibScanOptions();
             optionsAction?.Invoke(_options);
             AddType(services, type);
             return services;
+        }
+
+        /// <summary>
+        /// Add all classes in <see cref="T"/> assembly automatically to service collection based on default convention and <see cref="ServiceLifetime"/>
+        /// </summary>
+        /// <param name="services"></param>
+        public static IServiceCollection AddAssemblyOf<T>(this IServiceCollection services)
+        {
+            return services.AddAssembly(typeof(T).GetTypeInfo().Assembly);
+        }
+
+        /// <summary>
+        /// Add all classes in assembly automatically to service collection based on default convention and <see cref="ServiceLifetime"/>
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="assembly"></param>
+        public static IServiceCollection AddAssembly(this IServiceCollection services, Assembly assembly)
+        {
+            _options = new MiLibScanOptions();
+            return ScanAndRegisterAssemblies(services, new[] { assembly });
         }
 
         private static IServiceCollection ScanAndRegisterAssemblies(IServiceCollection services, IEnumerable<Assembly> assemblies)

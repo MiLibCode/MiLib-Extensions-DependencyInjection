@@ -2,7 +2,7 @@
 
 namespace System
 {
-    public static class MiStringExtensions
+    internal static class MiStringExtensions
     {
         /// <summary>
         /// Gets a substring of a string from end of the string.

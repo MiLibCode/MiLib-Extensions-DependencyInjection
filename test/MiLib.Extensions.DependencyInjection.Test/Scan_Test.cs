@@ -91,6 +91,55 @@ namespace MiLib.Extensions.DependencyInjection.Test
             _fixture.GetService<ICanCalculate>().ShouldBeOfType<TaxCalculator>();
             _fixture.ServiceProvider.GetService(typeof(TaxCalculator)).ShouldBeOfType<TaxCalculator>();
         }
+
+        [Fact]
+        public void Should_Add_Assembly()
+        {
+            //Act
+            var services = new ServiceCollection();
+            services.AddAssemblyOf<ServiceProviderHelper>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            //Assert
+            serviceProvider.GetService<ITaxCalculator>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService<ICalculator>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService<ICanCalculate>().ShouldBeNull();
+            serviceProvider.GetService(typeof(TaxCalculator)).ShouldBeOfType<TaxCalculator>();
+        }
+
+        [Fact]
+        public void Should_Add_TypeOf()
+        {
+            //Act
+            var services = new ServiceCollection();
+            services.AddTypeOf(typeof(TaxCalculator));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            //Assert
+            serviceProvider.GetService<ITaxCalculator>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService<ICalculator>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService<ICanCalculate>().ShouldBeNull();
+            serviceProvider.GetService(typeof(TaxCalculator)).ShouldBeOfType<TaxCalculator>();
+        }
+
+        [Fact]
+        public void Should_Add_TypeOf_Without_Default_Convention()
+        {
+            //Act
+            var services = new ServiceCollection();
+            services.AddTypeOf(typeof(TaxCalculator), opt => opt.DefaultConventionsBindingOnly = false);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            //Assert
+            serviceProvider.GetService<ITaxCalculator>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService<ICalculator>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService<ICanCalculate>().ShouldNotBeNull();
+            serviceProvider.GetService<ICanCalculate>().ShouldBeOfType(typeof(TaxCalculator));
+            serviceProvider.GetService(typeof(TaxCalculator)).ShouldBeOfType<TaxCalculator>();
+        }
     }
 
 

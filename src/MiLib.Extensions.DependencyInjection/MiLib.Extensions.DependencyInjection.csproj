@@ -9,7 +9,7 @@
     <Copyright>Copyright © 2018 Moses Ibiwoye</Copyright>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageOutputPath>../nupkgs</PackageOutputPath>
+    <PackageOutputPath>../../nupkgs</PackageOutputPath>
     <RepositoryUrl>https://github.com/MiLibCode/MiLib-Extensions-DependencyInjection</RepositoryUrl>
   </PropertyGroup>
 
